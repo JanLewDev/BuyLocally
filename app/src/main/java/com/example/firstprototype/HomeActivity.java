@@ -14,6 +14,7 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
     }
 
+    // confirmation of exiting the app
     @Override
     public void onBackPressed() {
 

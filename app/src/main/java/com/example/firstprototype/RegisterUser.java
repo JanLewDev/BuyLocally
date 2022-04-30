@@ -27,6 +27,7 @@ public class RegisterUser extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_user);
 
+        // hide the action bar
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
@@ -41,7 +42,6 @@ public class RegisterUser extends AppCompatActivity {
         btn_register = findViewById(R.id.register);
         btn_gotoLogin = findViewById(R.id.goto_login);
 
-        //registerUser();
 
         // set onClickListeners
         btn_register.setOnClickListener(new View.OnClickListener() {

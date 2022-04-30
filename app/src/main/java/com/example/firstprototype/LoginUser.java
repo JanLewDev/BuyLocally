@@ -26,6 +26,7 @@ public class LoginUser extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_user);
 
+        // hide the action bar
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
@@ -38,6 +39,8 @@ public class LoginUser extends AppCompatActivity {
         password = findViewById(R.id.password);
 
         login = findViewById(R.id.login);
+
+        // set on click listeners
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,9 +67,10 @@ public class LoginUser extends AppCompatActivity {
         if(str_email.length() == 0 || str_password.length() == 0){
             Toast.makeText(LoginUser.this, "Enter email and password!", Toast.LENGTH_SHORT).show();
         } else {
-
+            // get the database
             DBHelper databaseHelper = new DBHelper(LoginUser.this);
 
+            // find all matching records
             List<CustomerModel> allMatching = databaseHelper.getAllMatching(str_email);
 
             if (allMatching.size() == 0) {

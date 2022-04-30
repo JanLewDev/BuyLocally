@@ -11,6 +11,9 @@ import androidx.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+
+// this class implements the SQLite database
+
 public class DBHelper extends SQLiteOpenHelper {
 
 
@@ -21,6 +24,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String COLUMN_PASSWORD = "PASSWORD";
     public static final String COLUMN_ID = "ID";
 
+    // constructor of the class
     public DBHelper(@Nullable Context context) {
         super(context, "customers.db", null, 1);
     }
@@ -29,10 +33,13 @@ public class DBHelper extends SQLiteOpenHelper {
     // this is called the first time database is accessed
     @Override
     public void onCreate(SQLiteDatabase db) {
+
+        // create the SQL statement of creating a table
         String createTableStatement = "CREATE TABLE " + CUSTOMER_TABLE + " (" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_FIRSTNAME + " TEXT, " + COLUMN_SURNAME + " TEXT, " + COLUMN_EMAIL + " TEXT, " + COLUMN_PASSWORD + " TEXT)";
 
+        // execute the statement
         db.execSQL(createTableStatement);
-        //myDB.execSQL("create table " + TABLE_NAME + " (ID INTEGER PRIMARY KEY AUTOINCREMENT , FIRSTNAME TEXT , SURNAME TEXT , EMAIL TEXT , PASSWORD TEXT) ");
+
     }
 
     // this is called whenever the version number of the database changes
@@ -46,17 +53,23 @@ public class DBHelper extends SQLiteOpenHelper {
 
     // registration
     public boolean addCustomer(CustomerModel customer){
+
+        // get the access to the database
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
+        // insert the data to content values
         cv.put(COLUMN_FIRSTNAME, customer.getFirstName());
         cv.put(COLUMN_SURNAME, customer.getSurname());
         cv.put(COLUMN_EMAIL, customer.getEmail());
         cv.put(COLUMN_PASSWORD, customer.getPassword());
 
+
+        // add the record to the database and get the result
         long insert = db.insert(CUSTOMER_TABLE, null, cv);
         db.close();
 
+        // return the correct boolean result
         if(insert == -1){
             return false;
         }
@@ -72,13 +85,16 @@ public class DBHelper extends SQLiteOpenHelper {
         // get the data from the database
         String selectStatement = "SELECT * FROM " + CUSTOMER_TABLE + " WHERE " + COLUMN_EMAIL + " = '" + checkedEmail + "'";
 
+        // get access to the database
         SQLiteDatabase db = this.getReadableDatabase();
 
+        // do a query to search the database
         Cursor cursor = db.rawQuery(selectStatement, null);
 
         if(cursor.moveToFirst()){
             // loop through the result and create new customers and add them to the list
             do {
+                // convert all cursor values to their types
                 int customerID = cursor.getInt(0);
                 String customerFirstName = cursor.getString(1);
                 String customerSurname = cursor.getString(2);
@@ -102,30 +118,5 @@ public class DBHelper extends SQLiteOpenHelper {
         return retList;
     }
 
-//    // registration handler
-//    public boolean registerUser(String firstName, String surname, String email, String password){
-//
-//        SQLiteDatabase myDB = this.getWritableDatabase();
-//        ContentValues content = new ContentValues();
-//        content.put(COL_2, firstName);
-//        content.put(COL_3, surname);
-//        content.put(COL_4, email);
-//        content.put(COL_5, password);
-//
-//        long result = myDB.insert(TABLE_NAME, null, content);
-//
-//        if(result == -1)
-//            return false;
-//        return true;
-//    }
-//
-//    // login handler
-//
-//    public Cursor loginUser(String email, String password){
-//        SQLiteDatabase myDB = this.getWritableDatabase();
-//
-//        Cursor result = myDB.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_EMAIL + "=' " + email + " 'AND " + COLUMN_PASSWORD + "=' " + password + " ' ", null);
-//        return result;
-//
-//    }
+
 }
