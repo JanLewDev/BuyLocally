@@ -73,6 +73,7 @@ public class LoginUser extends AppCompatActivity {
             // find all matching records
             List<CustomerModel> allMatching = databaseHelper.getAllMatching(str_email);
 
+            // check if an account of this email already exists
             if (allMatching.size() == 0) {
                 Toast.makeText(LoginUser.this, "There is no account with this email address, try registering!", Toast.LENGTH_SHORT).show();
             } else {

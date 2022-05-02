@@ -20,12 +20,15 @@ public class SplashScreen extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // hide action bar
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
 
+        // create an Intent to send the user to after 3 seconds
         final Intent i = new Intent(SplashScreen.this, LoginUser.class);
 
+        // timer for waiting 3 second while the gif file plays
         Thread timer = new Thread(){
             public void run(){
                 try{
@@ -34,11 +37,13 @@ public class SplashScreen extends AppCompatActivity{
                     e.printStackTrace();
                 } finally {
                     startActivity(i);
+                    // we do not need the splash screen activity anymore
                     finish();
                 }
             }
         };
 
+        // start the timer
         timer.start();
 
     }
