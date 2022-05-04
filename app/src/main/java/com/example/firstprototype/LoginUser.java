@@ -57,6 +57,18 @@ public class LoginUser extends AppCompatActivity {
 
             }
         });
+
+        forgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sendEmail();
+            }
+        });
+    }
+
+    private void sendEmail() {
+
+
     }
 
     private void loginUser() {
