@@ -11,6 +11,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.mailjet.client.errors.MailjetException;
+import com.nylas.RequestFailedException;
+
+import java.io.IOException;
 import java.util.List;
 
 public class LoginUser extends AppCompatActivity {
@@ -61,12 +65,26 @@ public class LoginUser extends AppCompatActivity {
         forgotPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Toast.makeText(LoginUser.this, "xdxdxdx", Toast.LENGTH_SHORT).show();
                 sendEmail();
             }
         });
     }
 
-    private void sendEmail() {
+    private void sendEmail(){
+        String str_email = email.getText().toString().trim();
+        // Toast.makeText(this, str_email, Toast.LENGTH_SHORT).show();
+
+        String message = "hello test";
+        String subject = "elo elo";
+
+        try {
+            EmailsHelper.send();
+        } catch (RequestFailedException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
 
     }
