@@ -27,8 +27,8 @@ public class EmailsHelper {
             NylasAccount account = client.account("RkzyAwveHk84vTMR6mdn7XR2b1dTp2");
 
             Draft draft = new Draft();
-            draft.setSubject("With Love, from me");
-            draft.setBody("XDDDDDDDDDDDDDDDDDDDDDDDDDDD");
+            draft.setSubject("With Love, from szszszzsz");
+            draft.setBody("XDDDDD szymixa");
             draft.setTo(Arrays.asList(new NameEmail("My Friend", "bananoweherbatniki@o2.pl")));
 
             account.drafts().send(draft);

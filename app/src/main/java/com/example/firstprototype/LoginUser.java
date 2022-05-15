@@ -11,7 +11,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.mailjet.client.errors.MailjetException;
 import com.nylas.RequestFailedException;
 
 import java.io.IOException;
