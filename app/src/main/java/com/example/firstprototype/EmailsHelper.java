@@ -1,37 +1,41 @@
 package com.example.firstprototype;
 
-
-import android.os.StrictMode;
-
-import java.util.Arrays;
+import services.Courier;
+import services.SendService;
+import models.SendEnhancedRequestBody;
+import models.SendEnhancedResponseBody;
+import models.SendRequestMessage;
+import com.google.gson.Gson;
 import java.io.IOException;
-import com.nylas.NylasAccount;
-import com.nylas.NylasClient;
-import com.nylas.RequestFailedException;
-import com.nylas.Draft;
-import com.nylas.NameEmail;
+import java.util.HashMap;
 
 public class EmailsHelper {
 
-    public static void send() throws RequestFailedException, IOException {
+    public static void send() throws IOException {
 
         if (android.os.Build.VERSION.SDK_INT > 9)
         {
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-            StrictMode.setThreadPolicy(policy);
+            Courier.init(ConfigEmail.CourierKey);
 
-            // Create client object and connect it to Nylas using
-            // an account's access token
-            NylasClient client = new NylasClient();
-            // Provide the access token for a specific account
-            NylasAccount account = client.account("RkzyAwveHk84vTMR6mdn7XR2b1dTp2");
+            SendEnhancedRequestBody request = new SendEnhancedRequestBody();
+            SendRequestMessage message = new SendRequestMessage();
 
-            Draft draft = new Draft();
-            draft.setSubject("With Love, from szszszzsz");
-            draft.setBody("XDDDDD szymixa");
-            draft.setTo(Arrays.asList(new NameEmail("My Friend", "bananoweherbatniki@o2.pl")));
+            HashMap<String, String> to = new HashMap<String, String>();
+            to.put("email", "lewandowski.jan@o2.pl");
+            message.setTo(to);
+            message.setTemplate("B4QNN7GN4P47C8MB4B19VJ8J1YF3");
 
-            account.drafts().send(draft);
+            HashMap<String, Object> data = new HashMap<String, Object>();
+            data.put("variables", "awesomeness");
+            message.setData(data);
+
+            request.setMessage(message);
+            try {
+                SendEnhancedResponseBody response = new SendService().sendEnhancedMessage(request);
+                System.out.println(response);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
     }

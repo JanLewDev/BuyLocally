@@ -23,6 +23,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String COLUMN_EMAIL = "EMAIL";
     public static final String COLUMN_PASSWORD = "PASSWORD";
     public static final String COLUMN_ID = "ID";
+    public static final String COLUMN_RESETCODE = "RESETCODE";
 
     // constructor of the class
     public DBHelper(@Nullable Context context) {
@@ -35,7 +36,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
 
         // create the SQL statement of creating a table
-        String createTableStatement = "CREATE TABLE " + CUSTOMER_TABLE + " (" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_FIRSTNAME + " TEXT, " + COLUMN_SURNAME + " TEXT, " + COLUMN_EMAIL + " TEXT, " + COLUMN_PASSWORD + " TEXT)";
+        String createTableStatement = "CREATE TABLE " + CUSTOMER_TABLE + " (" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_FIRSTNAME + " TEXT, " + COLUMN_SURNAME + " TEXT, " + COLUMN_EMAIL + " TEXT, " + COLUMN_PASSWORD + " TEXT, " + COLUMN_RESETCODE + " INTEGER)";
 
         // execute the statement
         db.execSQL(createTableStatement);
@@ -63,6 +64,7 @@ public class DBHelper extends SQLiteOpenHelper {
         cv.put(COLUMN_SURNAME, customer.getSurname());
         cv.put(COLUMN_EMAIL, customer.getEmail());
         cv.put(COLUMN_PASSWORD, customer.getPassword());
+        cv.put(COLUMN_RESETCODE, customer.getResetcode());
 
 
         // add the record to the database and get the result

@@ -1,5 +1,7 @@
 package com.example.firstprototype;
 
+import java.util.Random;
+
 public class CustomerModel {
 
     private int id;
@@ -7,6 +9,7 @@ public class CustomerModel {
     private String surname;
     private String email;
     private String password;
+    private int resetcode;
 
     // constructors
 
@@ -16,6 +19,8 @@ public class CustomerModel {
         this.surname = surname;
         this.email = email;
         this.password = password;
+        int i = new Random().nextInt(900000) + 100000;
+        this.resetcode = i;
     }
 
     public CustomerModel() {
@@ -31,8 +36,10 @@ public class CustomerModel {
                 ", surname='" + surname + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
+                ", resetcode=" + resetcode +
                 '}';
     }
+
 
     // getters and setters
 
@@ -74,5 +81,13 @@ public class CustomerModel {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public int getResetcode() {
+        return resetcode;
+    }
+
+    public void setResetcode(int resetcode) {
+        this.resetcode = resetcode;
     }
 }
