@@ -11,32 +11,45 @@ import java.util.HashMap;
 
 public class EmailsHelper {
 
-    public static void send() throws IOException {
+    public static void send(String Name, String Email, int Code) throws IOException {
 
-        if (android.os.Build.VERSION.SDK_INT > 9)
-        {
-            Courier.init(ConfigEmail.CourierKey);
+        Thread thread = new Thread(new Runnable() {
 
-            SendEnhancedRequestBody request = new SendEnhancedRequestBody();
-            SendRequestMessage message = new SendRequestMessage();
+            @Override
+            public void run() {
+                try  {
+                    Courier.init(ConfigEmail.CourierKey);
 
-            HashMap<String, String> to = new HashMap<String, String>();
-            to.put("email", "lewandowski.jan@o2.pl");
-            message.setTo(to);
-            message.setTemplate("B4QNN7GN4P47C8MB4B19VJ8J1YF3");
+                    SendEnhancedRequestBody request = new SendEnhancedRequestBody();
+                    SendRequestMessage message = new SendRequestMessage();
 
-            HashMap<String, Object> data = new HashMap<String, Object>();
-            data.put("variables", "awesomeness");
-            message.setData(data);
+                    HashMap<String, String> to = new HashMap<String, String>();
+                    to.put("email", Email);
+                    message.setTo(to);
+                    message.setTemplate("B4QNN7GN4P47C8MB4B19VJ8J1YF3");
 
-            request.setMessage(message);
-            try {
-                SendEnhancedResponseBody response = new SendService().sendEnhancedMessage(request);
-                System.out.println(response);
-            } catch (IOException e) {
-                e.printStackTrace();
+                    HashMap<String, Object> data = new HashMap<String, Object>();
+                    data.put("variables", "awesomeness");
+                    data.put("email", Email);
+                    data.put("name", Name);
+                    data.put("code", Code);
+                    message.setData(data);
+
+                    request.setMessage(message);
+                    try {
+                        SendEnhancedResponseBody response = new SendService().sendEnhancedMessage(request);
+                        System.out.println(response);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
-        }
+        });
+
+        thread.start();
 
     }
 }

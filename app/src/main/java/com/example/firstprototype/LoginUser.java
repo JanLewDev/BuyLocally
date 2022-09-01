@@ -64,8 +64,8 @@ public class LoginUser extends AppCompatActivity {
         forgotPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(LoginUser.this, "xdxdxdx", Toast.LENGTH_SHORT).show();
-                sendEmail();
+                final Intent i = new Intent(LoginUser.this, ForgotPassword.class);
+                startActivity(i);
             }
         });
     }
@@ -77,11 +77,7 @@ public class LoginUser extends AppCompatActivity {
         String Message = "elo elo 320";
         String Email = "bananoweherbatniki@o2.pl";
 
-        try {
-            EmailsHelper.send();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
 
 
     }
