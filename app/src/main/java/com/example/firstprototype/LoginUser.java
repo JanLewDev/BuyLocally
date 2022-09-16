@@ -70,17 +70,6 @@ public class LoginUser extends AppCompatActivity {
         });
     }
 
-    private void sendEmail(){
-        String str_email = email.getText().toString().trim();
-        // Toast.makeText(this, str_email, Toast.LENGTH_SHORT).show();
-
-        String Message = "elo elo 320";
-        String Email = "bananoweherbatniki@o2.pl";
-
-
-
-
-    }
 
     private void loginUser() {
         // convert all input into strings

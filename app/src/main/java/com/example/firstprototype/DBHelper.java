@@ -23,7 +23,6 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String COLUMN_EMAIL = "EMAIL";
     public static final String COLUMN_PASSWORD = "PASSWORD";
     public static final String COLUMN_ID = "ID";
-    public static final String COLUMN_RESETCODE = "RESETCODE";
 
     // constructor of the class
     public DBHelper(@Nullable Context context) {
@@ -36,7 +35,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
 
         // create the SQL statement of creating a table
-        String createTableStatement = "CREATE TABLE " + CUSTOMER_TABLE + " (" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_FIRSTNAME + " TEXT, " + COLUMN_SURNAME + " TEXT, " + COLUMN_EMAIL + " TEXT, " + COLUMN_PASSWORD + " TEXT, " + COLUMN_RESETCODE + " INTEGER)";
+        String createTableStatement = "CREATE TABLE " + CUSTOMER_TABLE + " (" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_FIRSTNAME + " TEXT, " + COLUMN_SURNAME + " TEXT, " + COLUMN_EMAIL + " TEXT, " + COLUMN_PASSWORD + " TEXT)";
 
         // execute the statement
         db.execSQL(createTableStatement);
@@ -64,7 +63,6 @@ public class DBHelper extends SQLiteOpenHelper {
         cv.put(COLUMN_SURNAME, customer.getSurname());
         cv.put(COLUMN_EMAIL, customer.getEmail());
         cv.put(COLUMN_PASSWORD, customer.getPassword());
-        cv.put(COLUMN_RESETCODE, customer.getResetcode());
 
 
         // add the record to the database and get the result
@@ -118,6 +116,29 @@ public class DBHelper extends SQLiteOpenHelper {
         cursor.close();
         db.close();
         return retList;
+    }
+
+    // changing password when forgotten
+    public boolean changePassword(String newPassword, int id){
+
+        // get the access to the database
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        // insert the data to content values
+        cv.put(COLUMN_PASSWORD, newPassword);
+
+
+        // update the correct record
+        long insert = db.update(CUSTOMER_TABLE, cv, COLUMN_ID + "=" + id, null);
+        db.close();
+
+        // return the correct boolean result
+        if(insert == -1){
+            return false;
+        }
+        return true;
+
     }
 
 
