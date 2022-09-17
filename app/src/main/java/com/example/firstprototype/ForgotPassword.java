@@ -34,18 +34,16 @@ public class ForgotPassword extends AppCompatActivity {
             getSupportActionBar().hide();
         }
 
+        // find all elements of the screen, inputs and buttons
         email = findViewById(R.id.email);
         verificationCode = findViewById(R.id.VerificationCode);
         newPassword = findViewById(R.id.password);
         confirmPassword = findViewById(R.id.confirmPassword);
 
-
-
-
         sendCode = findViewById(R.id.sendCode);
         changePassword = findViewById(R.id.changePassword);
 
-
+        // set up click listeners to the buttons
         sendCode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -64,27 +62,26 @@ public class ForgotPassword extends AppCompatActivity {
     private void sendCode(){
         String str_email = email.getText().toString();
 
+        // initialise the database helper and find matching accounts
         DBHelper databaseHelper = new DBHelper(ForgotPassword.this);
-
         List<CustomerModel> allMatching = databaseHelper.getAllMatching(str_email);
 
+        // no matching accounts
         if(allMatching.size() == 0){
             Toast.makeText(ForgotPassword.this, "Account with this email address does not exist, try registering!", Toast.LENGTH_SHORT).show();
             return;
         }
-
+        // generate the verification code and convert it to string
         Code = new Random().nextInt(900000) + 100000;
         String str_code = Integer.toString(Code);
-        // Toast.makeText(ForgotPassword.this, str_code, Toast.LENGTH_SHORT).show();
 
-
+        // get the name and then use EmailsHelper class to send the message
         CustomerModel found = allMatching.get(0);
         String name = found.getFirstName();
 
-
-
         try {
             EmailsHelper.send(name, str_email, Code);
+            Toast.makeText(ForgotPassword.this, "Verification message sent!", Toast.LENGTH_SHORT).show();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -93,12 +90,14 @@ public class ForgotPassword extends AppCompatActivity {
     }
 
     private void checkDetails(){
+        // get the string values of all parameters
         String str_email = email.getText().toString();
         String str_verificationCode = verificationCode.getText().toString();
         String str_newPassword = newPassword.getText().toString();
         String str_confirmPassword = confirmPassword.getText().toString();
         String str_code = Integer.toString(Code);
 
+        // verify the inputs
         if(!str_verificationCode.equals(str_code)){
             Toast.makeText(ForgotPassword.this, "The verification code is not correct, try again!", Toast.LENGTH_SHORT).show();
 
@@ -108,16 +107,17 @@ public class ForgotPassword extends AppCompatActivity {
             Toast.makeText(ForgotPassword.this, "Passwords are not the same!", Toast.LENGTH_SHORT).show();
         } else {
 
+            // initialize the database helper
             DBHelper databaseHelper = new DBHelper(ForgotPassword.this);
 
+            // get all matching accounts and then the first of them
             List<CustomerModel> allMatching = databaseHelper.getAllMatching(str_email);
-
             CustomerModel found = allMatching.get(0);
 
-            // Toast.makeText(ForgotPassword.this, String.valueOf(found.getId()), Toast.LENGTH_SHORT).show();
-
+            // call the change password function with the new password and the customer ID
             boolean success = databaseHelper.changePassword(str_newPassword, found.getId());
 
+            // using an alert to inform the user the password has been changed and move to login page
             new SweetAlertDialog(ForgotPassword.this, SweetAlertDialog.SUCCESS_TYPE)
                     .setTitleText("Message")
                     .setContentText("Password changed successfully!")
@@ -131,14 +131,10 @@ public class ForgotPassword extends AppCompatActivity {
                         }
                     })
                     .show();
-
-
         }
-
-
-
     }
 
+    // helper function to check if the new password is valid
     private boolean isPasswordValid(String passwd){
         if(passwd.length() < 8){
             Toast.makeText(ForgotPassword.this, "Password must be at least 8 characters long!", Toast.LENGTH_SHORT).show();
