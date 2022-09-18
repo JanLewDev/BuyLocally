@@ -128,7 +128,6 @@ public class DBHelper extends SQLiteOpenHelper {
         // insert the data to content values
         cv.put(COLUMN_PASSWORD, newPassword);
 
-
         // update the correct record
         long insert = db.update(CUSTOMER_TABLE, cv, COLUMN_ID + "=" + id, null);
         db.close();

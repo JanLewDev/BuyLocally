@@ -100,13 +100,11 @@ public class ForgotPassword extends AppCompatActivity {
         // verify the inputs
         if(!str_verificationCode.equals(str_code)){
             Toast.makeText(ForgotPassword.this, "The verification code is not correct, try again!", Toast.LENGTH_SHORT).show();
-
         } else if(!isPasswordValid(str_newPassword)){
             // check if password is secure enough
         } else if(!str_newPassword.equals(str_confirmPassword)){
             Toast.makeText(ForgotPassword.this, "Passwords are not the same!", Toast.LENGTH_SHORT).show();
         } else {
-
             // initialize the database helper
             DBHelper databaseHelper = new DBHelper(ForgotPassword.this);
 
@@ -127,7 +125,6 @@ public class ForgotPassword extends AppCompatActivity {
                         public void onClick(SweetAlertDialog sweetAlertDialog) {
                             final Intent i = new Intent(ForgotPassword.this, LoginUser.class);
                             startActivity(i);
-
                         }
                     })
                     .show();
