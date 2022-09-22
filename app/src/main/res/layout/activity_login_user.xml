@@ -78,5 +78,16 @@
         app:layout_constraintStart_toEndOf="@+id/forgotPassword"
         app:layout_constraintTop_toTopOf="@+id/forgotPassword" />
 
+    <TextView
+        android:id="@+id/goto_producer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:text="I am a producer with secret code."
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

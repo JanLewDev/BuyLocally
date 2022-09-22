@@ -16,13 +16,20 @@ import java.util.List;
 
 public class DBHelper extends SQLiteOpenHelper {
 
-
+    // for the customers
     public static final String CUSTOMER_TABLE = "CUSTOMER_TABLE";
     public static final String COLUMN_FIRSTNAME = "FIRSTNAME";
     public static final String COLUMN_SURNAME = "SURNAME";
     public static final String COLUMN_EMAIL = "EMAIL";
     public static final String COLUMN_PASSWORD = "PASSWORD";
     public static final String COLUMN_ID = "ID";
+
+    // for the producers
+    public static final String PRODUCER_TABLE = "PRODUCER_TABLE";
+    public static final String COLUMN_COMPANY_NAME = "COMPANY";
+    public static final String COLUMN_DESCRIPTION = "DESCRIPTION";
+    public static final String COLUMN_TYPE = "TYPE";
+    public static final String COLUMN_LOCATION = "LOCATION";
 
     // constructor of the class
     public DBHelper(@Nullable Context context) {
@@ -35,10 +42,26 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
 
         // create the SQL statement of creating a table
-        String createTableStatement = "CREATE TABLE " + CUSTOMER_TABLE + " (" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_FIRSTNAME + " TEXT, " + COLUMN_SURNAME + " TEXT, " + COLUMN_EMAIL + " TEXT, " + COLUMN_PASSWORD + " TEXT)";
+        String createTableStatement = "CREATE TABLE " + CUSTOMER_TABLE +
+                " (" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + COLUMN_FIRSTNAME + " TEXT, "
+                + COLUMN_SURNAME + " TEXT, "
+                + COLUMN_EMAIL + " TEXT, "
+                + COLUMN_PASSWORD + " TEXT)";
 
         // execute the statement
         db.execSQL(createTableStatement);
+
+        String createProducerTableStatement = "CREATE TABLE " + PRODUCER_TABLE +
+                " (" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + COLUMN_COMPANY_NAME + " TEXT, "
+                + COLUMN_FIRSTNAME + " TEXT, "
+                + COLUMN_SURNAME + " TEXT, "
+                + COLUMN_DESCRIPTION + " TEXT, "
+                + COLUMN_TYPE + " TEXT, "
+                + COLUMN_LOCATION + " TEXT)";
+
+        db.execSQL(createProducerTableStatement);
 
     }
 
@@ -47,6 +70,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
 
         db.execSQL("DROP TABLE " + CUSTOMER_TABLE);
+        db.execSQL("DROP TABLE " + PRODUCER_TABLE);
         onCreate(db);
 
     }
@@ -138,6 +162,34 @@ public class DBHelper extends SQLiteOpenHelper {
         }
         return true;
 
+    }
+
+    //---------------- for producers --------------------//
+
+    // creating the company record
+    public boolean addProducer(ProducerModel producer){
+
+        // get the access to the database
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        // insert the data to content values
+        cv.put(COLUMN_COMPANY_NAME, producer.getCompanyName());
+        cv.put(COLUMN_FIRSTNAME, producer.getFirstName());
+        cv.put(COLUMN_SURNAME, producer.getSurname());
+        cv.put(COLUMN_DESCRIPTION, producer.getDescription());
+        cv.put(COLUMN_TYPE, producer.getType());
+        cv.put(COLUMN_LOCATION, producer.getLocation());
+
+        // add the record to the database and get the result
+        long insert = db.insert(PRODUCER_TABLE, null, cv);
+        db.close();
+
+        // return the correct boolean result
+        if(insert == -1){
+            return false;
+        }
+        return true;
     }
 
 

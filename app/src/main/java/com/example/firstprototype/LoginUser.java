@@ -19,7 +19,7 @@ import java.util.List;
 public class LoginUser extends AppCompatActivity {
 
     // references to all buttons and other controls on the layout
-    TextView goToRegister, forgotPassword;
+    TextView goToRegister, forgotPassword, goToProducer;
     EditText email, password;
     Button login;
 
@@ -37,6 +37,7 @@ public class LoginUser extends AppCompatActivity {
         // assign every element on the screen
         goToRegister = findViewById(R.id.goto_register);
         forgotPassword = findViewById(R.id.forgotPassword);
+        goToProducer = findViewById(R.id.goto_producer);
 
         email = findViewById(R.id.email);
         password = findViewById(R.id.password);
@@ -68,6 +69,15 @@ public class LoginUser extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+        goToProducer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final Intent i = new Intent(LoginUser.this, ProducerDashboard.class);
+                startActivity(i);
+            }
+        });
+
     }
 
 

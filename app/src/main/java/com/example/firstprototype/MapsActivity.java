@@ -21,13 +21,15 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.concurrent.TimeUnit;
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback,
-        GoogleMap.OnMyLocationButtonClickListener, GoogleMap.OnMyLocationClickListener{
+        GoogleMap.OnMyLocationButtonClickListener, GoogleMap.OnMyLocationClickListener, GoogleMap.OnInfoWindowClickListener{
 
 
     @Override
@@ -58,14 +60,17 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         googleMap.setOnMyLocationClickListener(MapsActivity.this);
 
         // just a test marker
-        LatLng sydney = new LatLng(-33.852, 151.211);
+        LatLng test = new LatLng(53.847995, -2.438157);
         googleMap.addMarker(new MarkerOptions()
-                .position(sydney)
-                .title("Marker in Sydney"));
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+                .position(test)
+                .title("Test marker")
+                .snippet("This is a test")
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(test));
         googleMap.moveCamera(CameraUpdateFactory.zoomTo(15));
 
-
+        googleMap.setOnInfoWindowClickListener(MapsActivity.this);
 
     }
 
@@ -87,5 +92,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private boolean hasPermission(String perm) {
         return(PackageManager.PERMISSION_GRANTED==checkSelfPermission(perm));
+    }
+    
+    @Override
+    public void onInfoWindowClick(@NonNull Marker marker) {
+        Toast.makeText(MapsActivity.this, "Info window clicked!", Toast.LENGTH_SHORT).show();
     }
 }
