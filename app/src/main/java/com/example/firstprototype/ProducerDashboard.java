@@ -12,6 +12,9 @@ import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class ProducerDashboard extends AppCompatActivity {
@@ -67,8 +70,13 @@ public class ProducerDashboard extends AppCompatActivity {
         String type = "";
         // a marker to know if an option has been chosen
         boolean selectedType = false;
-        
-        
+
+        // for testing on other devices purpose
+        if(str_company.equals("quickstart")){
+            addABunchOfProducers();
+            Toast.makeText(this, "Added a bunch of producers for testing!", Toast.LENGTH_SHORT).show();
+        }
+
         // check if the secret code is correct, which for now is 654321
         if(!str_secret.equals(SecretCode)){
             Toast.makeText(this, "Incorrect secret code!", Toast.LENGTH_SHORT).show();
@@ -147,4 +155,58 @@ public class ProducerDashboard extends AppCompatActivity {
         }
 
     }
+
+    // helper function to enable testing on other devices
+    private void addABunchOfProducers(){
+        List<ProducerModel> producersList = new ArrayList<>();
+        producersList.add(new ProducerModel(-1, "BestBaker", "Bob", "Baker"
+                , "I sell very good bread!", "Bakery", "53.808669, -2.443445"));
+        producersList.add(new ProducerModel(-1, "WorstBaker", "Bob", "Filter"
+                , "I sell very bad bread!", "Bakery", "53.802192, -2.492404"));
+        producersList.add(new ProducerModel(-1, "AverageBaker", "Bobie", "Pitfall"
+                , "I sell average bread!", "Bakery", "53.914789, -2.523381"));
+        producersList.add(new ProducerModel(-1, "MehBaker", "Robie", "Downfall"
+                , "I sell pretty bad bread!", "Bakery", "53.955352, -2.727646"));
+        producersList.add(new ProducerModel(-1, "ExcellentBaker", "Ebbie", "Cross"
+                , "I sell yummy croissants!", "Bakery", "53.901950, -2.367446"));
+
+        producersList.add(new ProducerModel(-1, "BestButcher", "Bob", "Butcher"
+                , "I sell very good meat!", "Butcher", "53.894308, -2.421092"));
+        producersList.add(new ProducerModel(-1, "WorstButcher", "Alex", "Bitter"
+                , "I sell very bad meat!", "Butcher", "53.791525, -2.687286"));
+        producersList.add(new ProducerModel(-1, "AverageButcher", "Butchie", "Doller"
+                , "I sell average meat!", "Butcher", "53.875394, -2.454103"));
+        producersList.add(new ProducerModel(-1, "MehButcher", "Samuel", "Cracker"
+                , "I sell pretty bad meat!", "Butcher", "53.750267, -2.429326"));
+        producersList.add(new ProducerModel(-1, "ExcellentButcher", "Waggie", "Stephen"
+                , "I sell yummy wagyu beef!", "Butcher", "53.772876, -2.654552"));
+
+        producersList.add(new ProducerModel(-1, "BestDiary", "Bob", "Milk"
+                , "I sell very good milk!", "Diary", "53.758829, -2.703152"));
+        producersList.add(new ProducerModel(-1, "WorstDiary", "Alex", "Milker"
+                , "I sell very bad milk!", "Diary", "53.760879, -2.488629"));
+        producersList.add(new ProducerModel(-1, "AverageDairy", "Milky", "Milkest"
+                , "I sell average cheese!", "Diary", "53.843048, -2.202711"));
+        producersList.add(new ProducerModel(-1, "MehDiary", "Samuel", "Miller"
+                , "I sell pretty bad milk!", "Diary", "54.074310, -2.278922"));
+        producersList.add(new ProducerModel(-1, "ExcellentDiary", "Chese", "Milkie"
+                , "I sell yummy cheddar!", "Diary", "53.929876, -2.369854"));
+
+        producersList.add(new ProducerModel(-1, "BestGrocery", "Bob", "Gross"
+                , "I sell very good vegetables!", "Grocery", "53.893221, -2.473072"));
+        producersList.add(new ProducerModel(-1, "WorstGrocery", "Alex", "Grossy"
+                , "I sell very bad vegetables!", "Grocery", "53.805968, -2.784425"));
+        producersList.add(new ProducerModel(-1, "AverageGrocery", "Jake", "Gauss"
+                , "I sell average fruit!", "Grocery", "53.704021, -2.109132"));
+        producersList.add(new ProducerModel(-1, "MehGrocery", "Samuel", "Gros"
+                , "I sell pretty bad fruit!", "Grocery", "53.691874, -2.533838"));
+        producersList.add(new ProducerModel(-1, "ExcellentGrocery", "Egg", "Yolky"
+                , "I sell yummy eggplants!", "Grocery", "53.853634, -2.485901"));
+
+        DBHelper databaseHelper = new DBHelper(ProducerDashboard.this);
+        for(ProducerModel producer : producersList){
+            databaseHelper.addProducer(producer);
+        }
+    }
+
 }

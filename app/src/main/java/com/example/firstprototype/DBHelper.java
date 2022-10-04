@@ -31,6 +31,11 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String COLUMN_TYPE = "TYPE";
     public static final String COLUMN_LOCATION = "LOCATION";
 
+    // for the link table
+    public static final String LINK_TABLE = "LINK_TABLE";
+    public static final String COLUMN_CUSTOMER_ID = "CUSTOMERID";
+    public static final String COLUMN_PRODUCER_ID = "PRODUCERID";
+
     // constructor of the class
     public DBHelper(@Nullable Context context) {
         super(context, "customers.db", null, 1);
@@ -63,6 +68,15 @@ public class DBHelper extends SQLiteOpenHelper {
 
         db.execSQL(createProducerTableStatement);
 
+        String createLinkTableStatement = "CREATE TABLE LINK_TABLE(" +
+                "CUSTOMERID INTEGER, " +
+                "PRODUCERID INTEGER, " +
+                "FOREIGN KEY(CUSTOMERID) REFERENCES CUSTOMER_TABLE(ID), " +
+                "FOREIGN KEY(PRODUCERID) REFERENCES PRODUCER_TABLE(ID), " +
+                "PRIMARY KEY(CUSTOMERID, PRODUCERID))";
+
+        db.execSQL(createLinkTableStatement);
+
     }
 
     // this is called whenever the version number of the database changes
@@ -71,6 +85,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         db.execSQL("DROP TABLE " + CUSTOMER_TABLE);
         db.execSQL("DROP TABLE " + PRODUCER_TABLE);
+        db.execSQL("DROP TABLE " + LINK_TABLE);
         onCreate(db);
 
     }
@@ -192,5 +207,134 @@ public class DBHelper extends SQLiteOpenHelper {
         return true;
     }
 
+    // get a list of all producers
+    public List<ProducerModel> getAllProducers(){
+        List<ProducerModel> retList = new ArrayList<>();
+        // get the data from the database
+        String selectStatement = "SELECT * FROM " + PRODUCER_TABLE;
+
+        // get access to the database
+        SQLiteDatabase db = this.getReadableDatabase();
+        // do a query to search the database
+        Cursor cursor = db.rawQuery(selectStatement, null);
+        if(cursor.moveToFirst()){
+            // loop through the result and create new objects and add them to the list
+            do {
+                // convert all cursor values to their types
+                int id = cursor.getInt(0);
+                String companyName = cursor.getString(1);
+                String firstName = cursor.getString(2);
+                String surname = cursor.getString(3);
+                String description = cursor.getString(4);
+                String type = cursor.getString(5);
+                String location = cursor.getString(6);
+
+                ProducerModel newProducer = new ProducerModel(id, companyName, firstName, surname, description, type, location);
+                retList.add(newProducer);
+
+            } while (cursor.moveToNext());
+        } else {
+            // the list will just be empty - no matching results
+        }
+        // close both the database and the cursor
+        cursor.close();
+        db.close();
+        return retList;
+    }
+
+    // get a list of all producers with given name or ID
+    public List<ProducerModel> getProducerByNameOrID(String checkedName, int ID){
+        List<ProducerModel> retList = new ArrayList<>();
+        String selectStatement = "";
+        // decide which statement to use
+        if(ID == -1) {
+            // get the data from the database
+            selectStatement = "SELECT * FROM " + PRODUCER_TABLE + " WHERE " + COLUMN_COMPANY_NAME + " = '" + checkedName + "'";
+        } else {
+            selectStatement = "SELECT * FROM " + PRODUCER_TABLE + " WHERE " + COLUMN_ID + " = '" + ID + "'";
+        }
+        // get access to the database
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // do a query to search the database
+        Cursor cursor = db.rawQuery(selectStatement, null);
+        if(cursor.moveToFirst()){
+            // loop through the result and create new customers and add them to the list
+            do {
+                int id = cursor.getInt(0);
+                String companyName = cursor.getString(1);
+                String firstName = cursor.getString(2);
+                String surname = cursor.getString(3);
+                String description = cursor.getString(4);
+                String type = cursor.getString(5);
+                String location = cursor.getString(6);
+
+                ProducerModel newProducer = new ProducerModel(id, companyName, firstName, surname, description, type, location);
+                retList.add(newProducer);
+            } while (cursor.moveToNext());
+        } else {
+            // the list will just be empty - no matching results
+        }
+        // close both the database and the cursor
+        cursor.close();
+        db.close();
+        return retList;
+    }
+
+    //------------------- for the link table -----------------------//
+
+    public boolean addToFavourites(CustomerModel customer, ProducerModel producer){
+
+        // get the access to the database
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        // insert the data to content values
+        cv.put(COLUMN_CUSTOMER_ID, customer.getId());
+        cv.put(COLUMN_PRODUCER_ID, producer.getId());
+
+        // add the record to the database and get the result
+        long insert = db.insert(LINK_TABLE, null, cv);
+        db.close();
+
+        // return the correct boolean result
+        if(insert == -1){
+            return false;
+        }
+        return true;
+    }
+
+    // get all producers which this user added to their favourites
+    public List<Integer> getAllFavourites(CustomerModel customer){
+        List<Integer> retList = new ArrayList<>();
+
+        // get the data from the database
+        String selectStatement = "SELECT * FROM " + LINK_TABLE + " WHERE " + COLUMN_CUSTOMER_ID + " = '" + customer.getId() + "'";
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(selectStatement, null);
+        if(cursor.moveToFirst()){
+            // loop through the result and create new customers and add them to the list
+            do {
+                int customerID = cursor.getInt(0);
+                int producerID = cursor.getInt(1);
+                retList.add(producerID);
+            } while (cursor.moveToNext());
+        } else {
+            // the list will just be empty - no matching results
+        }
+        // close both the database and the cursor
+        cursor.close();
+        db.close();
+        return retList;
+    }
+
+    public boolean removeFromFavourites(CustomerModel customer, ProducerModel producer){
+        SQLiteDatabase db = this.getWritableDatabase();
+        boolean result = db.delete(LINK_TABLE, COLUMN_CUSTOMER_ID + "=" + customer.getId()
+                + " AND " + COLUMN_PRODUCER_ID + "=" + producer.getId(), null) > 0;
+        db.close();
+        return result;
+    }
 
 }

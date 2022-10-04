@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -35,7 +34,7 @@ public class ForgotPassword extends AppCompatActivity {
         }
 
         // find all elements of the screen, inputs and buttons
-        email = findViewById(R.id.email);
+        email = findViewById(R.id.accountEmail);
         verificationCode = findViewById(R.id.VerificationCode);
         newPassword = findViewById(R.id.password);
         confirmPassword = findViewById(R.id.confirmPassword);
@@ -111,6 +110,11 @@ public class ForgotPassword extends AppCompatActivity {
             // get all matching accounts and then the first of them
             List<CustomerModel> allMatching = databaseHelper.getAllMatching(str_email);
             CustomerModel found = allMatching.get(0);
+
+            if(found.getPassword().equals(str_newPassword)){
+                Toast.makeText(this, "Your new password cannot be the same as your old one!", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
             // call the change password function with the new password and the customer ID
             boolean success = databaseHelper.changePassword(str_newPassword, found.getId());

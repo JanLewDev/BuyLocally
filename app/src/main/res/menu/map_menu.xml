@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menuBakery"
+        android:checkable="true"
+        android:checked="true"
+        android:enabled="true"
+        android:title="Bakery" />
+    <item
+        android:id="@+id/menuButcher"
+        android:checkable="true"
+        android:checked="true"
+        android:enabled="true"
+        android:title="Butcher" />
+    <item
+        android:id="@+id/menuDiary"
+        android:checkable="true"
+        android:checked="true"
+        android:enabled="true"
+        android:title="Diary" />
+    <item
+        android:id="@+id/menuGrocery"
+        android:checkable="true"
+        android:checked="true"
+        android:enabled="true"
+        android:title="Grocery" />
+</menu>

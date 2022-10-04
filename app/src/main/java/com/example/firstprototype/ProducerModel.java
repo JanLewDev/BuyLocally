@@ -1,5 +1,7 @@
 package com.example.firstprototype;
 
+import java.util.Comparator;
+
 public class ProducerModel {
 
     // declare all attributes
@@ -26,6 +28,27 @@ public class ProducerModel {
     public ProducerModel(){
 
     }
+
+    public static Comparator<ProducerModel> CompanyNameAZComparator = new Comparator<ProducerModel>() {
+        @Override
+        public int compare(ProducerModel p1, ProducerModel p2) {
+            return p1.getCompanyName().compareTo(p2.getCompanyName());
+        }
+    };
+
+    public static Comparator<ProducerModel> CompanyNameZAComparator = new Comparator<ProducerModel>() {
+        @Override
+        public int compare(ProducerModel p1, ProducerModel p2) {
+            return p2.getCompanyName().compareTo(p1.getCompanyName());
+        }
+    };
+
+    public static Comparator<ProducerModel> ProducerTypeComparator = new Comparator<ProducerModel>() {
+        @Override
+        public int compare(ProducerModel p1, ProducerModel p2) {
+            return p1.getType().compareTo(p2.getType());
+        }
+    };
 
     // a toString method to output data if needed
     @Override

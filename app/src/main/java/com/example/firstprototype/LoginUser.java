@@ -3,7 +3,7 @@ package com.example.firstprototype;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.database.Cursor;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -11,9 +11,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.nylas.RequestFailedException;
-
-import java.io.IOException;
 import java.util.List;
 
 public class LoginUser extends AppCompatActivity {
@@ -39,7 +36,7 @@ public class LoginUser extends AppCompatActivity {
         forgotPassword = findViewById(R.id.forgotPassword);
         goToProducer = findViewById(R.id.goto_producer);
 
-        email = findViewById(R.id.email);
+        email = findViewById(R.id.accountEmail);
         password = findViewById(R.id.password);
 
         login = findViewById(R.id.login);
@@ -88,11 +85,11 @@ public class LoginUser extends AppCompatActivity {
 
 
         // backdoor
-        if(str_email.equals("admin")){
-            Intent i = new Intent(LoginUser.this, HomeActivity.class);
-            startActivity(i);
-            return;
-        }
+//        if(str_email.equals("admin")){
+//            Intent i = new Intent(LoginUser.this, HomeActivity.class);
+//            startActivity(i);
+//            return;
+//        }
 
         if(str_email.length() == 0 || str_password.length() == 0){
             Toast.makeText(LoginUser.this, "Enter email and password!", Toast.LENGTH_SHORT).show();
@@ -113,6 +110,12 @@ public class LoginUser extends AppCompatActivity {
                 if (!found.getPassword().equals(str_password)) {
                     Toast.makeText(LoginUser.this, "Incorrect password!", Toast.LENGTH_SHORT).show();
                 } else {
+
+                    SharedPreferences sharedPreferences = getSharedPreferences("MyShared", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("email", found.getEmail());
+                    editor.apply();
+
                     Intent i = new Intent(LoginUser.this, HomeActivity.class);
                     startActivity(i);
                 }

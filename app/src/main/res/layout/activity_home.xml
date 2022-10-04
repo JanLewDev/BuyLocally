@@ -2,31 +2,75 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/accountEmail"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".HomeActivity">
 
     <TextView
-        android:id="@+id/banner"
+        android:id="@+id/banner3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:fontFamily="sans-serif-black"
-        android:text="Home"
-        android:textSize="50dp"
-        android:textStyle="italic"
+        android:layout_marginTop="10dp"
+        android:text="Here are all your favourite producers!"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/goToMap" />
+
+
 
     <Button
         android:id="@+id/goToMap"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="300dp"
+        android:layout_marginTop="16dp"
         android:text="Go to map"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/banner" />
+        app:layout_constraintTop_toBottomOf="@+id/homeFullName" />
+
+    <TextView
+        android:id="@+id/homeAccountEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Email address"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/banner2" />
+
+    <TextView
+        android:id="@+id/banner2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Your account information"
+        android:textStyle="bold"
+        android:textSize="18dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/homeFullName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Full name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/homeAccountEmail" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/listOfProducers"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/gradient_1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/banner3" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,9 +10,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.util.List;
-import java.util.Locale;
-
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class RegisterUser extends AppCompatActivity {
@@ -35,7 +32,7 @@ public class RegisterUser extends AppCompatActivity {
         // assign all buttons and other controls
         et_firstName = findViewById(R.id.firstName);
         et_surname = findViewById(R.id.surname);
-        et_email = findViewById(R.id.email);
+        et_email = findViewById(R.id.accountEmail);
         et_password = findViewById(R.id.password);
         et_confirmPassword = findViewById(R.id.confirmPassword);
 
